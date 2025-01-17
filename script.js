@@ -25,15 +25,19 @@ if (!localStorage.getItem("itens")) {
   localStorage.setItem("itens", JSON.stringify(arr));
 }
 
-let itens = JSON.parse(localStorage.getItem("itens")) || [];
+function getItens() {
+  return JSON.parse(localStorage.getItem("itens")) || [];
+}
 
 function createItem(item) {
+  const itens = getItens();
   itens.push(item);
   localStorage.setItem("itens", JSON.stringify(itens));
   readItem();
 }
 
 function readItem() {
+  const itens = getItens();
   const container = document.querySelector(".container");
   container.innerHTML = "";
 
@@ -51,6 +55,7 @@ function readItem() {
 }
 
 function updateItem(id, values) {
+  const itens = getItens();
   const index = itens.findIndex((item) => item.id === id);
 
   if (index === -1) {
@@ -60,11 +65,15 @@ function updateItem(id, values) {
 
   itens[index] = { ...itens[index], ...values };
   localStorage.setItem("itens", JSON.stringify(itens));
+
+  readItem();
 }
 
 function deleteItem(id) {
+  const itens = getItens();
   const updatedItens = itens.filter((item) => item.id !== id);
   localStorage.setItem("itens", JSON.stringify(updatedItens));
+  readItem();
 }
 
 readItem();
