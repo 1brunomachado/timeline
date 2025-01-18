@@ -36,15 +36,13 @@ function breakDate(str) {
   };
 
   const [dayMonth, time] = str.split(" - ");
-  const [day, monthName] = dayMonth.split(" de ");
+  const [day, monthName, year] = dayMonth.split(" de "); // Adiciona o ano à separação
   const [hour, minute] = time.split(":");
 
   const month = months[monthName.toLowerCase()];
-  const year = new Date().getFullYear();
+  const parsedYear = year ? parseInt(year) : new Date().getFullYear(); // Usa o ano da string ou o ano atual
 
-  const date = new Date(Date.UTC(year, month, parseInt(day), parseInt(hour), parseInt(minute)));
-  date.setHours(date.getHours());
-
+  const date = new Date(Date.UTC(parsedYear, month, parseInt(day), parseInt(hour), parseInt(minute)));
   return date.toISOString().slice(0, 16);
 }
 
@@ -120,6 +118,7 @@ function readItem() {
   itens
     .sort((a, b) => new Date(breakDate(a.time)) - new Date(breakDate(b.time)))
     .forEach((item) => {
+      console.log(new Date(item.time));
       const block = document.createElement("div");
       const circle = document.createElement("div");
       const line = document.createElement("div");
