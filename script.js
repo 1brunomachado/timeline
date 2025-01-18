@@ -69,6 +69,37 @@ function createTextArea(id) {
   return textArea;
 }
 
+const arr = [
+  {
+    name: "Desenvolvimento de software",
+    desc: "Planeja, sob supervisão, os requisitos de projeto de software de acordo com as necessidades do cliente.",
+    time: formatDate("2025-01-16T18:00"),
+    id: createID(),
+  },
+  {
+    name: "Desenvolvimento de algoritmo",
+    desc: "Estrutura algoritmos com base na lógica computacional e nos requisitos funcionais descritos no projeto.",
+    time: formatDate("2025-01-23T18:00"),
+    id: createID(),
+  },
+  {
+    name: "Manipulação de banco de dados",
+    desc: "Elabora, sob supervisão, modelagem de dados de acordo com projeto de software.",
+    time: formatDate("2025-01-30T18:00"),
+    id: createID(),
+  },
+  {
+    name: "Administração de banco de dados",
+    desc: "Monitora desempenho do sistema de gerenciamento de banco de dados de acordo com os parâmetros definidos para o sistema.",
+    time: formatDate("2025-02-06T18:00"),
+    id: createID(),
+  },
+];
+
+if (!localStorage.getItem("itens")) {
+  localStorage.setItem("itens", JSON.stringify(arr));
+}
+
 function getItens() {
   return JSON.parse(localStorage.getItem("itens")) || [];
 }
