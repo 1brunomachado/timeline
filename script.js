@@ -11,6 +11,7 @@ function formatDate(dateStr) {
   const parts = {
     day: "numeric",
     month: "long",
+    year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
