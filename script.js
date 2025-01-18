@@ -69,46 +69,6 @@ function createTextArea(id) {
   return textArea;
 }
 
-function randomColor() {
-  const letter = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letter[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
-const arr = [
-  {
-    name: "Desenvolvimento de software",
-    desc: "Planeja, sob supervisão, os requisitos de projeto de software de acordo com as necessidades do cliente.",
-    time: formatDate("2025-01-16T18:00"),
-    id: createID(),
-  },
-  {
-    name: "Desenvolvimento de algoritmo",
-    desc: "Estrutura algoritmos com base na lógica computacional e nos requisitos funcionais descritos no projeto.",
-    time: formatDate("2025-01-23T18:00"),
-    id: createID(),
-  },
-  {
-    name: "Manipulação de banco de dados",
-    desc: "Elabora, sob supervisão, modelagem de dados de acordo com projeto de software.",
-    time: formatDate("2025-01-30T18:00"),
-    id: createID(),
-  },
-  {
-    name: "Administração de banco de dados",
-    desc: "Monitora desempenho do sistema de gerenciamento de banco de dados de acordo com os parâmetros definidos para o sistema.",
-    time: formatDate("2025-02-06T18:00"),
-    id: createID(),
-  },
-];
-
-if (!localStorage.getItem("itens")) {
-  localStorage.setItem("itens", JSON.stringify(arr));
-}
-
 function getItens() {
   return JSON.parse(localStorage.getItem("itens")) || [];
 }
@@ -125,55 +85,43 @@ function readItem() {
   const container = document.querySelector(".grid-itens");
   container.innerHTML = "";
 
-  itens.forEach((item) => {
-    const block = document.createElement("div");
-    const circle = document.createElement("div");
-    const line = document.createElement("div");
-    const content = document.createElement("div");
-    const name = document.createElement("h3");
-    const desc = document.createElement("p");
-    const time = document.createElement("time");
-    const menu = document.createElement("button");
+  itens
+    .sort((a, b) => new Date(breakDate(a.time)) - new Date(breakDate(b.time)))
+    .forEach((item) => {
+      console.log(new Date(breakDate(item.time)));
+      const block = document.createElement("div");
+      const circle = document.createElement("div");
+      const line = document.createElement("div");
+      const content = document.createElement("div");
+      const name = document.createElement("h3");
+      const desc = document.createElement("p");
+      const time = document.createElement("time");
+      const menu = document.createElement("button");
 
-    block.className = "block-item";
-    circle.className = "circle";
-    line.className = "line";
-    content.className = "content";
-    time.className = "time";
-    time.textContent = item.time;
-    name.className = "name";
-    name.textContent = item.name;
-    desc.className = "desc";
-    desc.textContent = item.desc;
-    menu.className = "menu";
-    menu.innerHTML = `
+      block.className = "block-item";
+      circle.className = "circle";
+      line.className = "line";
+      content.className = "content";
+      time.className = "time";
+      time.textContent = item.time;
+      name.className = "name";
+      name.textContent = item.name;
+      desc.className = "desc";
+      desc.textContent = item.desc;
+      menu.className = "menu";
+      menu.innerHTML = `
       <svg width="16" height="4" viewBox="0 0 16 4" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2 4C1.45 4 0.979167 3.80417 0.5875 3.4125C0.195833 3.02083 0 2.55 0 2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0C2.55 0 3.02083 0.195833 3.4125 0.5875C3.80417 0.979167 4 1.45 4 2C4 2.55 3.80417 3.02083 3.4125 3.4125C3.02083 3.80417 2.55 4 2 4ZM8 4C7.45 4 6.97917 3.80417 6.5875 3.4125C6.19583 3.02083 6 2.55 6 2C6 1.45 6.19583 0.979167 6.5875 0.5875C6.97917 0.195833 7.45 0 8 0C8.55 0 9.02083 0.195833 9.4125 0.5875C9.80417 0.979167 10 1.45 10 2C10 2.55 9.80417 3.02083 9.4125 3.4125C9.02083 3.80417 8.55 4 8 4ZM14 4C13.45 4 12.9792 3.80417 12.5875 3.4125C12.1958 3.02083 12 2.55 12 2C12 1.45 12.1958 0.979167 12.5875 0.5875C12.9792 0.195833 13.45 0 14 0C14.55 0 15.0208 0.195833 15.4125 0.5875C15.8042 0.979167 16 1.45 16 2C16 2.55 15.8042 3.02083 15.4125 3.4125C15.0208 3.80417 14.55 4 14 4Z" fill="#ADB5BD"/>
       </svg>`;
-    menu.addEventListener("click", (e) => {
-      menuModal(block, item);
-      e.stopPropagation();
+      menu.addEventListener("click", (e) => {
+        menuModal(block, item);
+        e.stopPropagation();
+      });
+
+      content.append(time, name, desc, menu);
+      block.append(content, circle, line);
+      container.append(block);
     });
-
-    content.append(time, name, desc, menu);
-    block.append(content, circle, line);
-    container.append(block);
-  });
-
-  const add = document.createElement("button");
-  add.className = "button-add open-modal";
-  add.innerHTML = `
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M9.16663 10.8333H4.16663V9.16666H9.16663V4.16666H10.8333V9.16666H15.8333V10.8333H10.8333V15.8333H9.16663V10.8333Z" fill="#212529"/>
-                    </svg>
-                  `;
-  add.ariaLabel = "Adicionar item";
-  container.append(add);
-
-  const circle = document.querySelectorAll(".circle");
-  circle.forEach((circle) => {
-    circle.style.backgroundColor = randomColor();
-  });
 }
 
 function updateItem(id, values) {
@@ -197,11 +145,11 @@ function createModal(origin, item) {
   const header = document.createElement("div");
   const action = document.createElement("h3");
   const close = document.createElement("button");
-  const timeLabel = createLabel("Data", "date");
+  const timeLabel = createLabel("Data (obrigatório)", "date");
   const timeInput = createInput("datetime-local", "date");
-  const nameLabel = createLabel("Nome", "name");
+  const nameLabel = createLabel("Nome (obrigatório)", "name");
   const nameInput = createInput("text", "name");
-  const descLabel = createLabel("Descrição", "desc");
+  const descLabel = createLabel("Descrição (obrigatório)", "desc");
   const descTextArea = createTextArea("desc");
   const button = document.createElement("button");
 

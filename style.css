@@ -196,6 +196,7 @@ select {
 .grid-itens {
   display: grid;
   gap: var(--gutter);
+  margin-bottom: 40px;
 }
 
 .block-item {
@@ -211,6 +212,7 @@ select {
   grid-row: 1;
   width: 32px;
   height: 32px;
+  background-color: #0c8599;
   border-radius: 50%;
 }
 
@@ -290,6 +292,7 @@ select {
   .grid-itens .block-item:nth-child(odd) .circle {
     grid-column: 2;
     grid-row: 1;
+    background-color: #ff922b;
   }
 
   .grid-itens .block-item:nth-child(odd) .line {
@@ -304,7 +307,7 @@ select {
   }
 
   .grid-itens .block-item:nth-child(odd) .menu {
-    right: 380px;
+    right: 365px;
   }
 
   .grid-itens .block-item:nth-child(odd) .modal-menu {
