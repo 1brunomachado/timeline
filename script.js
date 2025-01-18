@@ -119,7 +119,6 @@ function readItem() {
   itens
     .sort((a, b) => new Date(breakDate(a.time)) - new Date(breakDate(b.time)))
     .forEach((item) => {
-      console.log(new Date(breakDate(item.time)));
       const block = document.createElement("div");
       const circle = document.createElement("div");
       const line = document.createElement("div");
